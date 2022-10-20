@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class FileHelpers {
+   
     static List<File> getFiles(Path start) throws IOException {
         File f = start.toFile();
         List<File> result = new ArrayList<>();
@@ -24,6 +25,7 @@ class FileHelpers {
         }
         return result;
     }
+
     static String readFile(File f) throws IOException {
         System.out.println(f.toString());
         return new String(Files.readAllBytes(f.toPath()));
@@ -31,12 +33,17 @@ class FileHelpers {
 }
 
 class Handler implements URLHandler {
+
     List<File> files;
     Handler(String directory) throws IOException {
       this.files = FileHelpers.getFiles(Paths.get(directory));
     }
+
     public String handleRequest(URI url) throws IOException {
-      return "Don't know how to handle that path!";
+      if (url.getPath().equals("/")) {
+            return ("Server was started");
+        }
+        return "404 Not Found!"; 
     }
 }
 
